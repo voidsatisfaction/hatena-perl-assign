@@ -26,8 +26,8 @@ $ script/appup
 - `$key`に対応するリクエストパラメーターを返す
 - クエリパラメーターやルーティングによって得られたパラメーターなど全てが対象となる
 
-### `$c->dbh($name)`
-- `$name`データベースのハンドラを返す
+### `$c->dbh`
+- データベースのハンドラを返す
 - [`DBIx::Sunny`](http://search.cpan.org/dist/DBIx-Sunny/lib/DBIx/Sunny.pm)
 
 ### `$c->html($template_file, $parameters)`

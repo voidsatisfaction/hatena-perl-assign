@@ -27,7 +27,7 @@ sub _db_config : Test(3) {
 
 sub _dbh : Test(1) {
     my $factory = Intern::Diary::Context->new;
-    my $dbh = $factory->dbh('intern_diary');
+    my $dbh = $factory->dbh;
     ok $dbh;
 
 }

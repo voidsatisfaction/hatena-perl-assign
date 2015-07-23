@@ -121,8 +121,9 @@ sub db_config {
 }
 
 sub dbh {
-    my ($self, $name) = @_;
+    my ($self) = @_;
 
+    my $name = 'intern_diary';
     my $db_config = $self->db_config($name);
     my $user = $db_config->{user}
         or Carp::croak qq(No user name for DB '$name' exists);
