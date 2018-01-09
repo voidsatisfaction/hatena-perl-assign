@@ -6,6 +6,7 @@ use utf8;
 
 use Data::Dumper;
 
+use DateTime;
 use DateTime::Format::MySQL;
 
 use Class::Accessor::Lite (
@@ -16,6 +17,8 @@ use Class::Accessor::Lite (
   new => 1,
 );
 
+# QUESTION: What is the meaning of this method?
+# Just for cache?
 sub created_at {
   my ($self) = @_;
   $self->{_created_at} ||= eval {
