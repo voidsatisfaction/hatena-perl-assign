@@ -20,7 +20,7 @@ CREATE TABLE article (
   `title` VARCHAR(128) NOT NULL,
   `body` VARCHAR(5000),
   `created_at` DATETIME NOT NULL,
-  `updated_at` TIMESTAMP NOT NULL,
+  `updated_at` DATETIME NOT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY (diary_id, title)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
