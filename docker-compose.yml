@@ -1,0 +1,10 @@
+version: '3'
+services:
+  mysql:
+    build: .
+    volumes:
+      - .:/usr/src/perl-Intern-Diary
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "13306:3306"
