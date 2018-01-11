@@ -3,7 +3,7 @@ services:
   web:
     build: .
     volumes:
-      - .:/usr/src/perl-intern-Diary
+      - .:/usr/src/perl-Intern-Diary
     depends_on:
       - db
     environment:
