@@ -7,13 +7,16 @@ services:
     depends_on:
       - db
     environment:
-      - APP_MODE=DEV
+      - INTERN_DIARY_ENV=DEV
   ## for now, I should execute script manually
   db:
     image: "mysql:5.7.20"
     volumes:
-      - .:/usr/src/perl-Intern-Diary
+      - ./db:/docker-entrypoint-initdb.d
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=intern_diary
+      - MYSQL_USER=nobody
+      - MYSQL_PASSWORD=nobody
     ports:
       - "13306:3306"
