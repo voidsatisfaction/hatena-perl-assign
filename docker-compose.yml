@@ -1,7 +1,16 @@
 version: '3'
 services:
-  mysql:
+  web:
     build: .
+    volumes:
+      - .:/usr/src/perl-intern-Diary
+    depends_on:
+      - db
+    environment:
+      - APP_MODE=DEV
+  ## for now, I should execute script manually
+  db:
+    image: "mysql:5.7.20"
     volumes:
       - .:/usr/src/perl-Intern-Diary
     environment:
