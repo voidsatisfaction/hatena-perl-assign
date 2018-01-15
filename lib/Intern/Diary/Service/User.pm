@@ -33,6 +33,7 @@ sub get_user_by_name {
   my $row = $db->select_row(q[
     SELECT * FROM user
       WHERE name = ?
+      LIMIT 1
   ], $name);
 
   return Intern::Diary::Model::User->new($row);

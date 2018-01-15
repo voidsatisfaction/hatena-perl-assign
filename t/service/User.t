@@ -5,6 +5,7 @@ use warnings;
 use utf8;
 
 use parent qw(Test::Class);
+
 use Test::More;
 use Test::Exception;
 use Test::Deep;
