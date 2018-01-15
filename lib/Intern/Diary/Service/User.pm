@@ -36,6 +36,10 @@ sub get_user_by_name {
       LIMIT 1
   ], $name);
 
+  unless ($row) {
+    return undef;
+  }
+
   return Intern::Diary::Model::User->new($row);
 }
 

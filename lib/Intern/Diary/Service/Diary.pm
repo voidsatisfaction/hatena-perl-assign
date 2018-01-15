@@ -37,6 +37,10 @@ sub get_diary_by_user_and_title {
       LIMIT 1
   ], $title, $user->id);
 
+  unless ($row) {
+    return undef;
+  }
+
   return Intern::Diary::Model::Diary->new($row);
 }
 

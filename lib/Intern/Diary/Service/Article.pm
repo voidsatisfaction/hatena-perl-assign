@@ -34,7 +34,7 @@ sub create {
   my $diary = $args->{diary} // croak 'diary required';
 
   my $c = Intern::Diary::Context->new;
-  my $dbh = $c->dbh;
+  $dbh = $c->dbh;
 
   $dbh->query(q[
     INSERT INTO article (title, body, created_at, updated_at, diary_id)
