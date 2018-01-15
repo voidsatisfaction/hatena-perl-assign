@@ -3,15 +3,18 @@ package t::Intern::Diary::Service::User;
 use strict;
 use warnings;
 use utf8;
+use lib 't/lib';
 
 use parent qw(Test::Class);
 
 use Test::More;
-use Test::Exception;
 use Test::Deep;
+use Test::Exception;
+use Test::Intern::Diary::Factory;
 
-use Intern::Diary::Service::User;
+use Intern::Diary::Util;
 use Intern::Diary::Context;
+use Intern::Diary::Service::User;
 
 sub _require : Test(startup => 1) {
   my ($self) = @_;
@@ -30,7 +33,7 @@ sub get_or_create_by_name : Test(2) {
   };
 
   subtest 'Success: get already existing user' => sub {
-    my $created_name = 'abc';
+    my $created_name = Intern::Diary::Util::random_string(10);
     my $created_user = Intern::Diary::Service::User->create($db, { name => $created_name });
 
     my $get_user = Intern::Diary::Service::User->get_or_create_by_name($db, { name => $created_name });
@@ -45,8 +48,7 @@ sub get_user_by_name : Test(2) {
   my ($self) = @_;
 
   my $db = Intern::Diary::Context->new->dbh;
-  my $dummy_name = 'user1';
-  my $create_user = Intern::Diary::Service::User->create($db, { name => $dummy_name });
+  my $created_user = create_user;
 
   subtest 'Fail: name is not registered' => sub {
     dies_ok {
@@ -55,11 +57,11 @@ sub get_user_by_name : Test(2) {
   };
 
   subtest 'Success: get user by name' => sub {
-    my $get_user = Intern::Diary::Service::User->get_user_by_name($db, { name => $dummy_name });
+    my $get_user = Intern::Diary::Service::User->get_user_by_name($db, { name => $created_user->name });
 
     ok $get_user, 'user exists';
     isa_ok $get_user, 'Intern::Diary::Model::User', 'user is blessed';
-    is $get_user->{name}, $create_user->{name}, 'two users are same';
+    is $get_user->{name}, $created_user->{name}, 'two users are same';
   };
 }
 
@@ -75,7 +77,7 @@ sub create : Test(2) {
   };
 
   subtest 'Success: create new user' => sub {
-    my $dummy_name = 'user';
+    my $dummy_name = Intern::Diary::Util::random_string(10);
     my $dummy_user = Intern::Diary::Service::User->create($db, {
       name => $dummy_name,
     });
