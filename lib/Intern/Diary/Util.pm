@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use utf8;
 
+use String::Random qw(random_regex);
+
 use DateTime;
 use DateTime::Format::MySQL;
 
@@ -20,6 +22,16 @@ sub datetime_from_db ($) {
     $dt->set_time_zone(config->param('db_timezone'));
     $dt->set_formatter( DateTime::Format::MySQL->new );
     $dt;
+}
+
+# QUESTION
+# where is the right place for this util to be located?
+sub random_string ($) {
+  my $n = shift;
+  unless ($n) {
+    $n = 10;
+  }
+  return random_regex('\w{' . $n . '}');
 }
 
 1;
