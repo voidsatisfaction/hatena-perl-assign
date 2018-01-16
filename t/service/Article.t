@@ -10,9 +10,9 @@ use parent qw(Test::Class);
 use Test::More;
 use Test::Deep;
 use Test::Exception;
+use Test::Intern::Diary::Util;
 use Test::Intern::Diary::Factory;
 
-use Intern::Diary::Util;
 use Intern::Diary::Context;
 use Intern::Diary::Service::Article;
 
