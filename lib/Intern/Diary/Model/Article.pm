@@ -19,7 +19,7 @@ use Class::Accessor::Lite (
 sub created_at {
   my ($self) = @_;
 
-  $self->{_created_at} ||= eval {
+  $self->{_created_at} // eval {
     Intern::Diary::Util::datetime_from_db(
       $self->{created_at}
     );
@@ -29,7 +29,7 @@ sub created_at {
 sub updated_at {
   my ($self) = @_;
 
-  $self->{_updated_at} ||= eval {
+  $self->{_updated_at} // eval {
     Intern::Diary::Util::datetime_from_db(
       $self->{updated_at}
     );
