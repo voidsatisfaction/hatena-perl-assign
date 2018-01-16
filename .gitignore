@@ -29,4 +29,3 @@ MYMETA.*
 .carton/
 /local/
 /log/
-cpanfile.snapshot
