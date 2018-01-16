@@ -60,6 +60,39 @@ sub get_article_by_diary_and_title : Test(3) {
   };
 }
 
+sub get_articles_by_diary : Test(2) {
+  my ($self) = @_;
+
+  my $db = Intern::Diary::Context->new->dbh;
+
+  my $diary = create_diary();
+  subtest 'Fail: diary is undefined' => sub {
+    dies_ok {
+      Intern::Diary::Service::Article->get_articles_by_diary($db, +{});
+    };
+  };
+
+  subtest 'Success' => sub {
+    my $get_articles = Intern::Diary::Service::Article->get_articles_by_diary($db, +{
+      diary => $diary,
+    });
+
+    is scalar(@$get_articles), 0, 'article does not exists';
+
+    my $n = 10;
+    for (my $i = 0; $i < $n; $i++) {
+      create_article((diary => $diary));
+      create_article();
+    }
+
+    $get_articles = Intern::Diary::Service::Article->get_articles_by_diary($db, +{
+      diary => $diary,
+    });
+
+    is scalar(@$get_articles), $n, "$n articles are fetched";
+  };
+}
+
 sub create : Test(3) {
   my ($self) = @_;
 

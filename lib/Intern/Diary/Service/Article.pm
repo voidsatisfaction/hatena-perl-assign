@@ -24,6 +24,19 @@ sub get_article_by_diary_and_title {
   return Intern::Diary::Model::Article->new($row);
 }
 
+sub get_articles_by_diary {
+  my ($class, $dbh, $args) = @_;
+
+  my $diary = $args->{diary} // croak 'diary required';
+
+  my $rows = $dbh->select_all(q[
+    SELECT * FROM article
+      WHERE diary_id = ?
+  ], $diary->id);
+
+  return [ map { Intern::Diary::Model::Article->new($_) } @$rows ];
+}
+
 sub create {
   my ($class, $dbh, $args) = @_;
 
