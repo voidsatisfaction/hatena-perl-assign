@@ -1,4 +1,20 @@
 #!/usr/local/bin perl
+
+=pod
+## Description
+
+CLI diary application made by voidsatisfaction
+
+## Usage
+
+carton exec -- perl lib/diary.pl [username] [command] [parameter...]
+
+e.g)
+carton exec -- perl lib/diary.pl wlekmf add_diary my_diary
+carton exec -- perl lib/diary.pl wlekmf add_diary my_diary
+
+=cut
+
 use strict;
 use warnings;
 use utf8;
@@ -16,10 +32,23 @@ use Intern::Diary::Service::Article;
 my %HANDLERS = (
   add_diary => \&add_diary,
   add_article => \&add_article,
+  help => \&help,
 );
+
+# check @ARGV is enough
+if (scalar(@ARGV) < 2) {
+  help();
+  exit 0;
+}
 
 my $user_name = shift @ARGV;
 my $command = shift @ARGV;
+
+# check command is already registered
+unless (is_command_valid($command, %HANDLERS)) {
+  help();
+  exit 0;
+}
 
 my $dbh = Intern::Diary::Context->new->dbh // croak 'dbh is not set';
 
@@ -27,10 +56,35 @@ my $user = Intern::Diary::Service::User->get_or_create_by_name($dbh, +{
   name => $user_name,
 });
 
-my $handler = $HANDLERS{$command};
+my $handler = $HANDLERS{$command} // $HANDLERS{'help'};
 $handler->($user, @ARGV);
 
 exit 0;
+
+sub is_command_valid {
+  my ($command, %HANDLERS) = @_;
+
+  return exists $HANDLERS{$command};
+}
+
+sub help {
+  print '
+# Usage
+
+carton exec -- perl lib/diary.pl [username] [command] [parameter...]
+
+# API example
+
+## Diary
+
+carton exec -- perl lib/diary.pl username add_diary my_diary
+
+## Article
+
+carton exec -- perl lib/diary.pl username add_article my_diary title [body]
+
+';
+}
 
 sub add_diary {
   my ($user, $title) = @_;
@@ -38,7 +92,7 @@ sub add_diary {
   my $diary = Intern::Diary::Service::Diary->create($dbh, +{
     user => $user,
     title => $title,
-  });
+  }) // croak 'diary does not exists';
 
   print "-------Diary: ${title}-------", "\n";
   print "is added", "\n";
