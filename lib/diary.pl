@@ -32,6 +32,7 @@ use Intern::Diary::Service::Article;
 my %HANDLERS = (
   add_diary => \&add_diary,
   add_article => \&add_article,
+  get_articles => \&get_articles,
   help => \&help,
 );
 
@@ -103,8 +104,8 @@ sub add_article {
   my ($user, $diary_title, $title, $body) = @_;
 
   my $diary = Intern::Diary::Service::Diary->get_diary_by_user_and_title($dbh, +{
-    title => $diary_title,
     user => $user,
+    title => $diary_title,
   }) // croak 'diary does not exist';
 
   my $article = Intern::Diary::Service::Article->create($dbh, +{
@@ -116,4 +117,27 @@ sub add_article {
   print "-------Article: ${title}-------", "\n";
   print "$body", "\n";
   print "-------------------------------", "\n";
+}
+
+sub get_articles {
+  my ($user, $diary_title) = @_;
+
+  my $diary = Intern::Diary::Service::Diary->get_diary_by_user_and_title($dbh, +{
+    user => $user,
+    title => $diary_title,
+  }) // croak 'diary does not exist';
+
+  my $articles = Intern::Diary::Service::Article-> get_articles_by_diary($dbh, {
+    diary => $diary,
+  });
+  my $length = scalar(@$articles);
+
+  print "There are $length articles in total\n";
+  foreach my $article (@$articles) {
+    my $article_title = $article->title;
+    my $article_body = $article->body;
+    print '-' x 20, "\n";
+    print "title: $article_title\n";
+    print $article->body, "\n";
+  }
 }
