@@ -24,15 +24,5 @@ sub datetime_from_db ($) {
     $dt;
 }
 
-# QUESTION
-# where is the right place for this util to be located?
-sub random_string ($) {
-  my $n = shift;
-  unless ($n) {
-    $n = 10;
-  }
-  return random_regex('\w{' . $n . '}');
-}
-
 1;
 __END__

@@ -66,7 +66,7 @@ sub create : Test(3) {
   my $db = Intern::Diary::Context->new->dbh;
 
   my $diary = create_diary;
-  my $title = Intern::Diary::Util::random_string(30);
+  my $title = Test::Intern::Diary::Util::random_string(30);
 
   subtest 'Fail: title is undefined' => sub {
     dies_ok {

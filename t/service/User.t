@@ -33,7 +33,7 @@ sub get_or_create_by_name : Test(2) {
   };
 
   subtest 'Success: get already existing user' => sub {
-    my $created_name = Intern::Diary::Util::random_string(10);
+    my $created_name = Test::Intern::Diary::Util::random_string(10);
     my $created_user = Intern::Diary::Service::User->create($db, { name => $created_name });
 
     my $get_user = Intern::Diary::Service::User->get_or_create_by_name($db, { name => $created_name });
@@ -77,7 +77,7 @@ sub create : Test(2) {
   };
 
   subtest 'Success: create new user' => sub {
-    my $dummy_name = Intern::Diary::Util::random_string(10);
+    my $dummy_name = Test::Intern::Diary::Util::random_string(10);
     my $dummy_user = Intern::Diary::Service::User->create($db, {
       name => $dummy_name,
     });
