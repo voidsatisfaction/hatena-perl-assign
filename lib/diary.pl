@@ -72,7 +72,7 @@ sub help {
   print '
 # Usage
 
-carton exec -- perl lib/diary.pl [username] [command] [parameter...]
+carton exec -- perl lib/diary.pl {username} {command} [parameter...]
 
 # API example
 
@@ -82,7 +82,8 @@ carton exec -- perl lib/diary.pl username add_diary my_diary
 
 ## Article
 
-carton exec -- perl lib/diary.pl username add_article my_diary title [body]
+carton exec -- perl lib/diary.pl username add_article my_diary title body
+carton exec -- perl lib/diary.pl username get_articles diary_name
 
 ';
 }
