@@ -7,4 +7,4 @@ RUN cpanm Carton
 RUN rm -rf local/
 RUN carton install
 
-CMD perl leave.pl
+CMD script/appup
