@@ -57,14 +57,14 @@ config DEV => {
   db_timezone => 'UTC',
 };
 
-config test => {
+config TEST => {
     parent('default'),
 
     db => {
         intern_diary => {
             user     => 'nobody',
             password => 'nobody',
-            dsn      => 'dbi:mysql:dbname=intern_diary_test;host=localhost',
+            dsn => 'dbi:mysql:dbname=intern_diary;host=db',
         },
     },
     db_timezone => 'UTC',

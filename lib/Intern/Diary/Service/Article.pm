@@ -37,6 +37,16 @@ sub get_articles_by_diary {
   return [ map { Intern::Diary::Model::Article->new($_) } @$rows ];
 }
 
+sub get_articles {
+  my ($class, $dbh, $args) = @_;
+
+  my $rows = $dbh->select_all(q[
+    SELECT * FROM article
+  ]);
+
+  return [ map { Intern::Diary::Model::Article->new($_) } @$rows ];
+}
+
 sub create {
   my ($class, $dbh, $args) = @_;
 
