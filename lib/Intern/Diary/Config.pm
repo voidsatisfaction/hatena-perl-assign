@@ -44,6 +44,19 @@ config local => {
     db_timezone => 'UTC',
 };
 
+config DEV => {
+  parent('default'),
+
+  db => {
+    intern_diary => {
+      user     => 'nobody',
+      password => 'nobody',
+      dsn => 'dbi:mysql:dbname=intern_diary;host=db',
+    },
+  },
+  db_timezone => 'UTC',
+};
+
 config test => {
     parent('default'),
 
