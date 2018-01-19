@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use utf8;
 
+use String::Random qw(random_regex);
+
 use DateTime;
 use DateTime::Format::MySQL;
 
