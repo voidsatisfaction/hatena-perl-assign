@@ -3,9 +3,26 @@
   <head>
     <meta charset=utf-8>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intern::Diary</title>
+    <title>[% title %]</title>
   </head>
   <body>
-    [% content %]
+    <header id="global-header">
+      <div class="menu">
+        [% IF c.user %]
+        <a href="/">all articles</a>
+        <a href="/article/me">my article</a>
+        [% ELSE %]
+        <a href="/login">login</a>
+        [% END %]
+      </div>
+    </header>
+
+    <article id="content">
+      [% content %]
+    </article>
+
+    <footer id="global-footer">
+      Made by voidsatisfaction
+    </footer>
   </body>
 </html>

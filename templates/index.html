@@ -1,5 +1,13 @@
-[% WRAPPER '_wrapper.tt' %]
+[% WRAPPER '_wrapper.tt' WITH title = "Intern::Diary::All" %]
 <div class=row>
   Intern-Diary
+  <div class="articles">
+    [% FOREACH article IN articles %]
+      <div class="article">
+        <h3>[% article.title %]</h3>
+        <p>[% article.body %]</p>
+      </div>
+    [% END %]
+  </div>
 </div>
 [% END # WRAPPER %]

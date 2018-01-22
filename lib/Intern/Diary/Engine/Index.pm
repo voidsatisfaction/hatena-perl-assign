@@ -11,7 +11,9 @@ sub default {
 
     my $articles = Intern::Diary::Service::Article->get_articles($c->dbh);
 
-    $c->plain_text($articles);
+    $c->html('index.html', {
+      articles => $articles,
+    });
 }
 
 1;
