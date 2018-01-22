@@ -8,6 +8,7 @@ use String::Random qw(random_regex);
 
 use DateTime;
 use DateTime::Format::MySQL;
+use DateTime::Format::Strptime;
 
 use Intern::Diary::Config;
 
@@ -22,6 +23,14 @@ sub datetime_from_db ($) {
     $dt->set_time_zone(config->param('db_timezone'));
     $dt->set_formatter( DateTime::Format::MySQL->new );
     $dt;
+}
+
+sub datetime_to_cookie_string ($) {
+  my $dt = shift;
+  my $formatter = DateTime::Format::Strptime->new(
+    pattern => '%j%m%G %l%M %p',
+  );
+  $dt->set_formatter($formatter);
 }
 
 1;

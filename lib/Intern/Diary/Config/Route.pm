@@ -23,6 +23,10 @@ sub make_router {
           engine => 'User',
           action => 'signin_post',
         } => { method => 'POST' };
+        connect '/signout' => {
+          engine => 'User',
+          action => 'signout_post',
+        } => { method => 'POST' };
     };
 }
 
