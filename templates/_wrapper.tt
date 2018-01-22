@@ -12,7 +12,7 @@
         <a href="/">all articles</a>
         <a href="/article/me">my article</a>
         [% ELSE %]
-        <a href="/login">login</a>
+        <a href="/signin">sign in</a>
         [% END %]
       </div>
     </header>
