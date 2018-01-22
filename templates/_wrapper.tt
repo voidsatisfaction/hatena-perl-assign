@@ -10,7 +10,8 @@
       <div class="menu">
         [% IF c.user %]
         <a href="/">all articles</a>
-        <a href="/article/me">my article</a>
+        <a href="/[% c.user.name %]">my diary</a>
+        <a id='sign-out'>sign out</a>
         [% ELSE %]
         <a href="/signin">sign in</a>
         [% END %]
@@ -24,5 +25,21 @@
     <footer id="global-footer">
       Made by voidsatisfaction
     </footer>
+    <script type="text/javascript">
+      function signOut() {
+        const req = new XMLHttpRequest();
+
+        req.onreadystatechange = function() {
+          if (req.readyState === 4 && req.status === 200) {
+            window.location.href = '/';
+          }
+        };
+
+        req.open('POST', '/signout');
+        req.send();
+      }
+      const signOutButton = document.querySelector("#sign-out");
+      signOutButton.addEventListener('click', signOut);
+    </script>
   </body>
 </html>

@@ -22,7 +22,7 @@ sub _require : Test(startup => 1) {
   require_ok 'Intern::Diary::Service::Diary'
 }
 
-sub get_diaries_by_user : Test(3) {
+sub get_diaries_by_user : Test(2) {
   my ($self) = @_;
 
   my $db = Intern::Diary::Context->new->dbh;
