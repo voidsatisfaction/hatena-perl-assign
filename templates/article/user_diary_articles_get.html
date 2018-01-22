@@ -1,0 +1,10 @@
+[% WRAPPER '_wrapper.tt' WITH title = "Intern::Diary::Article" %]
+<div class=row>
+  [% FOREACH article IN articles %]
+    <div class="my-articles">
+      <a href="">[% article.title %]</a>
+      <p>[% article.body %]</p>
+    </div>
+  [% END %]
+</div>
+[% END # WRAPPER %]

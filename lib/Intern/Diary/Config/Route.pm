@@ -35,7 +35,7 @@ sub make_router {
         };
 
         # Article controller
-        connect '/:username/:diaryname' => {
+        connect '/:username/:diarytitle' => {
           engine => 'Article',
           action => 'user_diary_articles_get',
         };
