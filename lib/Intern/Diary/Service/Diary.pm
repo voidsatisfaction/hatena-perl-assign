@@ -25,6 +25,19 @@ sub create {
   });
 }
 
+sub get_diaries_by_user {
+  my ($class, $dbh, $args) = @_;
+
+  my $user = $args->{user} // croak 'user required';
+
+  my $rows = $dbh->select_all(q[
+    SELECT * FROM diary
+      WHERE user_id = ?
+  ], $user->id);
+
+  return [ map { Intern::Diary::Model::Diary->new($_) } @$rows ];
+}
+
 sub get_diary_by_user_and_title {
   my ($class, $db, $args) = @_;
 

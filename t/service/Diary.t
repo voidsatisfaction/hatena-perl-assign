@@ -22,6 +22,32 @@ sub _require : Test(startup => 1) {
   require_ok 'Intern::Diary::Service::Diary'
 }
 
+sub get_diaries_by_user : Test(3) {
+  my ($self) = @_;
+
+  my $db = Intern::Diary::Context->new->dbh;
+
+  my $user = create_user;
+  my $diary1 = create_diary(user => $user);
+  my $diary2 = create_diary(user => $user);
+
+  subtest 'Fail: user is undefined' => sub {
+    dies_ok {
+      Intern::Diary::Service::Diary->get_diaries_by_user($db, +{});
+    };
+  };
+
+  subtest 'Success' => sub {
+    my $get_diaries = Intern::Diary::Service::Diary->get_diaries_by_user($db, +{
+      user => $user,
+    });
+
+    ok $get_diaries, 'diaries exist';
+    is scalar @$get_diaries, 2, 'diaries numbers are same';
+    cmp_deeply [map { $_->user_id } @$get_diaries], [$diary1->user_id, $diary2->user_id];
+  };
+}
+
 sub get_diary_by_user_and_title : Test(3) {
   my ($self) = @_;
 

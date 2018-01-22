@@ -8,6 +8,7 @@ use Class::Accessor::Lite (
   ro => [qw(
     id
     title
+    user_id
   )],
   new => 1,
 );
