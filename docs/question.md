@@ -34,6 +34,10 @@ sub check_signin_and_redirect {
   });
 ```
 
+### 4. URLをどうしたら綺麗にまとめられるのか？
+
+今は：`/:username/:diarytitle`
+
 ## ~~2018. 1. 16~~
 
 ### 1. WAF(Web Application Framework)とは正確に何を指しているものなのか。Ruby On RailsやExpressやPlay的なものなのか。 参考URL: https://github.com/hatena/Hatena-Textbook/blob/master/web-application-development.md#waf%E3%81%A8web%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E5%87%A6%E7%90%86%E3%82%92%E5%88%86%E9%9B%A2%E3%81%97%E3%81%9F%E5%9B%B3
