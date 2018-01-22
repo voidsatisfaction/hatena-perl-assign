@@ -140,6 +140,7 @@ sub uri_for {
 }
 
 ### User & Session
+### TODO: Cookie to Session
 
 sub user {
   my ($self) = @_;
@@ -148,6 +149,14 @@ sub user {
     Intern::Diary::Service::User->get_or_create_by_name($self->dbh, +{
       name => $user_name,
     });
+  }
+}
+
+sub check_signin_and_redirect {
+  my ($self) = @_;
+
+  unless ($self->user) {
+    $self->throw_redirect('/signin');
   }
 }
 
