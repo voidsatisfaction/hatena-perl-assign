@@ -27,6 +27,18 @@ sub make_router {
           engine => 'User',
           action => 'signout_post',
         } => { method => 'POST' };
+
+        # Diary controller
+        connect '/:username' => {
+          engine => 'Diary',
+          action => 'user_diaries_get',
+        };
+
+        # Article controller
+        connect '/:username/:diaryname' => {
+          engine => 'Article',
+          action => 'user_diary_articles_get',
+        };
     };
 }
 
