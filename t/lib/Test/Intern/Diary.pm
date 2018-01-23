@@ -12,14 +12,14 @@ use DateTime;
 use DateTime::Format::MySQL;
 
 BEGIN {
-    $ENV{INTERN_DIARY_ENV} = 'test';
+    $ENV{INTERN_DIARY_ENV} = 'TEST';
     $ENV{PLACK_ENV} = 'test';
     $ENV{DBI_REWRITE_DSN} ||= 1;
 }
 
 use DBIx::RewriteDSN -rules => q<
     ^(.*?;mysql_socket=.*)$ $1
-    ^.*?:dbname=([^;]+?)(?:_test)?(?:;.*)?$ dbi:mysql:dbname=$1_test;host=localhost
+    ^.*?:dbname=([^;]+?)(?:_test)?(?:;.*)?$ dbi:mysql:dbname=$1;host=db
     ^(DBI:Sponge:)$ $1
     ^(.*)$ dsn:unsafe:got=$1
 >;

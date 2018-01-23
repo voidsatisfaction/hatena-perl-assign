@@ -11,6 +11,7 @@ use Intern::Diary::Context;
 
 use Test::More;
 
+use t::Test;
 use Test::Intern::Diary;
 use Test::Intern::Diary::Factory qw(create_user);
 use Test::Intern::Diary::Mechanize qw(create_mech);
