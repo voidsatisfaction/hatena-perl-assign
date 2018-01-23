@@ -49,6 +49,8 @@ sub new_diary_post {
   }) // croak 'diary should exists';
 
   my $user_name = $user->name;
+
+  # It redirects to my diary
   $c->throw_redirect("/$user_name");
 }
 
