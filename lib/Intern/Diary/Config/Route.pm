@@ -29,10 +29,6 @@ sub make_router {
         } => { method => 'POST' };
 
         # Diary controller
-        connect '/:username' => {
-          engine => 'Diary',
-          action => 'user_diaries_get',
-        } => { method => 'GET' };
         connect '/diary/new' => {
           engine => 'Diary',
           action => 'new_diary_get',
@@ -41,8 +37,16 @@ sub make_router {
           engine => 'Diary',
           action => 'new_diary_post',
         } => { method => 'POST' };
+        connect '/:username' => {
+          engine => 'Diary',
+          action => 'user_diaries_get',
+        } => { method => 'GET' };
 
         # Article controller
+        connect '/article/new' => {
+          engine => 'Article',
+          action => 'new_article_get',
+        };
         connect '/:username/:diarytitle' => {
           engine => 'Article',
           action => 'user_diary_articles_get',

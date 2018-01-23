@@ -2,9 +2,13 @@
 <div class=row>
   [% FOREACH article IN articles %]
     <div class="my-articles">
-      <a href="">[% article.title %]</a>
+      <h3><a href="">[% article.title %]</a></h3>
       <p>[% article.body %]</p>
+      <a href="#">edit</a>
+      <a href="#">delete</a>
     </div>
   [% END %]
+  <br />
+  <a href="/article/new">new article</a>
 </div>
 [% END # WRAPPER %]
