@@ -32,7 +32,15 @@ sub make_router {
         connect '/:username' => {
           engine => 'Diary',
           action => 'user_diaries_get',
-        };
+        } => { method => 'GET' };
+        connect '/diary/new' => {
+          engine => 'Diary',
+          action => 'new_diary_get',
+        } => { method => 'GET' };
+        connect '/diary' => {
+          engine => 'Diary',
+          action => 'new_diary_post',
+        } => { method => 'POST' };
 
         # Article controller
         connect '/:username/:diarytitle' => {
