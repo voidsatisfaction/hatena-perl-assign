@@ -57,4 +57,10 @@ sub get_diary_by_user_and_title {
   return Intern::Diary::Model::Diary->new($row);
 }
 
+sub get_or_create_by_user_and_title {
+  my ($class, $db, $args) = @_;
+
+  return $class->get_diary_by_user_and_title($db, $args) // $class->create($db, $args);
+}
+
 1;

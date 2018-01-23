@@ -12,6 +12,8 @@ use parent qw(Test::Class);
 use Test::More;
 use Test::Deep;
 use Test::Exception;
+
+use Test::Intern::Diary::Util qw(random_string);
 use Test::Intern::Diary::Factory;
 
 use Intern::Diary::Context;
@@ -118,6 +120,59 @@ sub create : Test(3) {
     ok $created_diary, 'diary exists';
     isa_ok $created_diary, 'Intern::Diary::Model::Diary', 'diary is blessed';
     is $created_diary->title, $title, 'title is same';
+    is $created_diary->user_id, $user->id, 'owner is same';
+  };
+}
+
+sub get_or_create_by_user_and_title : Test(4) {
+  my ($self) = @_;
+
+  my $db = Intern::Diary::Context->new->dbh;
+  my $user = create_user;
+  my $title = random_string(20);
+  subtest 'Fail: user is undefined' => sub {
+    dies_ok {
+      Intern::Diary::Service::Diary->get_or_create_by_user_and_title($db, +{
+        title => $title,
+      });
+    };
+  };
+
+  subtest 'Fail: title is undefined' => sub {
+    dies_ok {
+      Intern::Diary::Service::Diary->get_or_create_by_user_and_title($db, +{
+        user => $user,
+      });
+    };
+  };
+
+  subtest 'Success: diary is created' => sub {
+    my $diary = Intern::Diary::Service::Diary->get_or_create_by_user_and_title($db, +{
+      user => $user,
+      title => $title,
+    });
+
+    ok $diary, 'diary is created';
+    isa_ok $diary, 'Intern::Diary::Model::Diary', 'diary is blessed';
+    is $diary->title, $title, 'title is same';
+    is $diary->user_id, $user->id, 'owner is same';
+  };
+
+  subtest 'Success: diary is found' => sub {
+    my $created_diary = Intern::Diary::Service::Diary->get_diary_by_user_and_title($db, +{
+      user => $user,
+      title => $title,
+    });
+
+    ok $created_diary, 'already created';
+
+    my $diary = Intern::Diary::Service::Diary->get_or_create_by_user_and_title($db, +{
+      user => $user,
+      title => $title,
+    });
+
+    ok $diary, 'diary exists';
+    cmp_deeply $created_diary, $diary, 'diaries are same';
   };
 }
 
