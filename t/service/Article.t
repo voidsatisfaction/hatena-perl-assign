@@ -130,6 +130,38 @@ sub create : Test(3) {
   }
 }
 
+sub delete_by_id : Test(2) {
+  my ($self) = @_;
+
+  my $db = Intern::Diary::Context->new->dbh;
+
+  my $user = create_user;
+  my $diary = create_diary(user => $user);
+  my $article = create_article(diary => $diary);
+
+  subtest 'Fail: id is undefined' => sub {
+    dies_ok {
+      Intern::Diary::Service::Article->delete_by_id($db, +{});
+    };
+  };
+
+  subtest 'Success' => sub {
+    Intern::Diary::Service::Article->delete_by_id($db, +{
+      id => $article->id,
+    });
+
+    my $deleted_article = Intern::Diary::Service::Article->get_article_by_diary_and_title($db, +{
+      diary => $diary,
+      title => $article->title,
+    });
+
+    use Data::Dumper;
+    print Dumper $deleted_article;
+
+    ok !$deleted_article, 'article has been deleted';
+  };
+}
+
 __PACKAGE__->runtests;
 
 1;

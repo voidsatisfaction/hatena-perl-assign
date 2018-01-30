@@ -19,7 +19,7 @@ sub get_article_by_diary_and_title {
     SELECT * FROM article
       WHERE title = ? AND diary_id = ?
       LIMIT 1
-  ], $title, $diary->id);
+  ], $title, $diary->id) or return;
 
   return Intern::Diary::Model::Article->new($row);
 }
@@ -32,7 +32,7 @@ sub get_articles_by_diary {
   my $rows = $dbh->select_all(q[
     SELECT * FROM article
       WHERE diary_id = ?
-  ], $diary->id);
+  ], $diary->id) or return;
 
   return [ map { Intern::Diary::Model::Article->new($_) } @$rows ];
 }
@@ -42,7 +42,7 @@ sub get_articles {
 
   my $rows = $dbh->select_all(q[
     SELECT * FROM article
-  ]);
+  ]) or return;
 
   return [ map { Intern::Diary::Model::Article->new($_) } @$rows ];
 }
@@ -65,6 +65,18 @@ sub create {
     title => $title,
     diary => $diary,
   });
+}
+
+sub delete_by_id {
+  my ($class, $dbh, $args) = @_;
+
+  my $id = $args->{id} // croak 'id required';
+
+  $dbh->query(q[
+    DELETE FROM article
+      WHERE
+        id = ?
+  ], $id);
 }
 
 1;
