@@ -7,6 +7,7 @@ use utf8;
 use Carp;
 
 use Intern::Diary::Util;
+use Intern::Diary::Context;
 use Intern::Diary::Model::Article;
 
 sub get_article_by_diary_and_title {
@@ -58,9 +59,22 @@ sub get_articles_by_diary {
 sub get_articles {
   my ($class, $dbh, $args) = @_;
 
+  my $c = Intern::Diary::Context->new;
+
+  my $per_page = $args->{per_page} // $c->default_per_page;
+  if ($per_page > $c->max_per_page) {
+    $per_page = $c->max_per_page;
+  }
+  my $page = $args->{page} // 0;
+  my $order_by = $args->{order_by} // 'created_at DESC';
+  my $offset = $page * $per_page;
+
   my $rows = $dbh->select_all(q[
     SELECT * FROM article
-  ]) or return;
+      ORDER BY ?
+      LIMIT ?
+      OFFSET ?
+  ], $order_by, $per_page, $offset) or return;
 
   return [ map { Intern::Diary::Model::Article->new($_) } @$rows ];
 }

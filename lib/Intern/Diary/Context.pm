@@ -180,6 +180,20 @@ sub check_same_user {
   return $user->id == $current_user_id;
 }
 
+### Pagination
+
+sub default_per_page {
+  my ($self) = @_;
+
+  return 10;
+}
+
+sub max_per_page {
+  my ($self) = @_;
+
+  return 15;
+}
+
 ### DB Access
 
 sub db_config {
