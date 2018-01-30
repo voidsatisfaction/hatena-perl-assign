@@ -155,9 +155,6 @@ sub delete_by_id : Test(2) {
       title => $article->title,
     });
 
-    use Data::Dumper;
-    print Dumper $deleted_article;
-
     ok !$deleted_article, 'article has been deleted';
   };
 }
