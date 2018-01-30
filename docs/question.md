@@ -1,5 +1,36 @@
 # 課題を作り上げる上での質問や疑問
 
+## 2018. 1. 30
+
+### 1. User入力validationで正しくない入力値が入った時に、どうやってフィードバックを返した方が良いのか？
+
+リダイレクト時にパラメータをヘッダーに入れる？
+
+### 2. そもそもvalidationはどうやってやった方が効率的なのか？どの層で行うのか？controller? model? ...
+
+### 3. 現在のスキーマでは、Articleを作成したUserを確認するためには、Article -> Diary -> Userにしないと行けないが、Articleのfkとしてuser_idを追加することは妥当だろうか？
+
+```perl
+# Intern::Diary::Service::User のコード
+sub get_user_by_article {
+  my ($class, $db, $args) = @_;
+
+  my $article = $args->{article} // croak 'article required';
+  my $diary = Intern::Diary::Service::Diary->get_diary_by_article($db, +{
+    article => $article,
+  });
+  my $user = $class->get_user_by_diary($db, +{
+    diary => $diary,
+  });
+
+  return $user;
+}
+```
+
+### 4. paginationロジックはかなり重複するイメージがあるが、切り出して一般化すべきなのか？
+
+bostonを参考?
+
 ## 2018. 1. 22
 
 ### 1. Hatena::Newbieでは、なんで、Controllerという名前のディレクトリの代わりにengineを使っているのか？
