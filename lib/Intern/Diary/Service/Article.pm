@@ -85,16 +85,16 @@ sub create {
   });
 }
 
-sub delete_by_id {
+sub delete_by_article_id {
   my ($class, $dbh, $args) = @_;
 
-  my $id = $args->{id} // croak 'id required';
+  my $article_id = $args->{article_id} // croak 'article_id required';
 
   $dbh->query(q[
     DELETE FROM article
       WHERE
         id = ?
-  ], $id);
+  ], $article_id);
 }
 
 1;

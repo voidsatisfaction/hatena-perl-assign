@@ -51,6 +51,10 @@ sub make_router {
           engine => 'Article',
           action => 'new_article_post',
         } => { method => 'POST' };
+        connect '/article/delete/:article_id' => {
+          engine => 'Article',
+          action => 'article_delete',
+        } => { method => 'POST' };
         connect '/:username/:diarytitle' => {
           engine => 'Article',
           action => 'user_diary_articles_get',

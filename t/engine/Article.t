@@ -124,6 +124,44 @@ sub _new_article_post : Tests {
   };
 }
 
+sub _article_delete : Tests {
+  my $c = Intern::Diary::Context->new;
+  my $user = create_user;
+  my $diary = create_diary(user => $user);
+  my $diary_title = $diary->title;
+  my $article = create_article(diary => $diary);
+  my $article_title = $article->title;
+  my $article_id = $article->id;
+
+  subtest 'guest' => sub {
+    my $mech = create_mech;
+    $mech->post("/article/delete/$article_id", +{});
+
+    $mech->title_is('Intern::Diary::Signin');
+  };
+
+  subtest 'not owner' => sub {
+    # 403 error
+    my $other_user = create_user;
+    my $mech = create_mech(user => $other_user);
+    $mech->post("/article/delete/$article_id", +{});
+    
+    $mech->content_contains('403');
+  };
+
+  subtest 'owner' => sub {
+    my $mech = create_mech(user => $user);
+    $mech->post_ok("/article/delete/$article_id");
+
+    my $deleted_article = Intern::Diary::Service::Article->get_article_by_diary_and_title($c->dbh, +{
+      title => $article_title,
+      diary => $diary,
+    });
+
+    ok !$deleted_article, 'article is deleted';
+  };
+}
+
 __PACKAGE__->runtests;
 
 1;

@@ -153,7 +153,7 @@ sub create : Test(3) {
   }
 }
 
-sub delete_by_id : Test(2) {
+sub delete_by_article_id : Test(2) {
   my ($self) = @_;
 
   my $db = Intern::Diary::Context->new->dbh;
@@ -164,13 +164,13 @@ sub delete_by_id : Test(2) {
 
   subtest 'Fail: id is undefined' => sub {
     dies_ok {
-      Intern::Diary::Service::Article->delete_by_id($db, +{});
+      Intern::Diary::Service::Article->delete_by_article_id($db, +{});
     };
   };
 
   subtest 'Success' => sub {
-    Intern::Diary::Service::Article->delete_by_id($db, +{
-      id => $article->id,
+    Intern::Diary::Service::Article->delete_by_article_id($db, +{
+      article_id => $article->id,
     });
 
     my $deleted_article = Intern::Diary::Service::Article->get_article_by_diary_and_title($db, +{

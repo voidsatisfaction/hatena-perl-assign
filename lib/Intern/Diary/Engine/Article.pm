@@ -79,5 +79,29 @@ sub user_diary_articles_get {
   });
 }
 
+sub article_delete {
+  my ($class, $c) = @_;
+  $c->check_signin_and_redirect;
+
+  my $article_id = $c->req->parameters->{article_id};
+  my $article = Intern::Diary::Service::Article->get_article_by_article_id($c->dbh, +{
+    article_id => $article_id,
+  });
+  my $article_user = Intern::Diary::Service::User->get_user_by_article($c->dbh, +{
+    article => $article,
+  });
+
+  unless ($c->check_same_user($article_user)) {
+    return $c->error(403);
+  }
+
+  Intern::Diary::Service::Article->delete_by_article_id($c->dbh, +{
+    article_id => $article_id,
+  });
+
+  my $user_name = $c->user->name;
+  $c->throw_redirect("/$user_name");
+}
+
 1;
 __END__
