@@ -17,9 +17,27 @@ sub get_article_by_diary_and_title {
 
   my $row = $dbh->select_row(q[
     SELECT * FROM article
-      WHERE title = ? AND diary_id = ?
+      WHERE
+        title = ?
+          AND
+        diary_id = ?
       LIMIT 1
   ], $title, $diary->id) or return;
+
+  return Intern::Diary::Model::Article->new($row);
+}
+
+sub get_article_by_article_id {
+  my ($class, $dbh, $args) = @_;
+
+  my $article_id = $args->{article_id} // croak 'article_id required';
+
+  my $row = $dbh->select_row(q[
+    SELECT * FROM article
+      WHERE
+        id = ?
+      LIMIT 1
+  ], $article_id) or return;
 
   return Intern::Diary::Model::Article->new($row);
 }

@@ -60,6 +60,29 @@ sub get_article_by_diary_and_title : Test(3) {
   };
 }
 
+sub get_article_by_article_id : Test(2) {
+  my ($self) = @_;
+
+  my $db = Intern::Diary::Context->new->dbh;
+
+  my $article = create_article;
+  subtest 'Fail: id is undefined' => sub {
+    dies_ok {
+      Intern::Diary::Service::Artice->get_article_by_article_id($db, +{});
+    };
+  };
+
+  subtest 'Success' => sub {
+    my $get_article = Intern::Diary::Service::Article->get_article_by_article_id($db, +{
+      article_id => $article->id,
+    });
+
+    ok $get_article, 'article exists';
+    isa_ok $get_article, 'Intern::Diary::Model::Article', 'article is blessed';
+    ok cmp_deeply($get_article, $article), 'article ok';
+  };
+}
+
 sub get_articles_by_diary : Test(2) {
   my ($self) = @_;
 
