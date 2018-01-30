@@ -101,6 +101,17 @@ sub html {
     $self->response->content(Encode::encode_utf8 $content);
 }
 
+sub error {
+  my ($self, $status_code, $args) = @_;
+
+  $args->{status_code} = $status_code;
+
+  my $content = $self->render_file("error/index.html", $args);
+  $self->response->code($status_code);
+  $self->response->content_type('text/html; charset=utf-8');
+  $self->response->content(Encode::encode_utf8 $content);
+}
+
 sub json {
     my ($self, $hash) = @_;
 
@@ -158,6 +169,15 @@ sub check_signin_and_redirect {
   unless ($self->user) {
     $self->throw_redirect('/signin');
   }
+}
+
+sub check_same_user {
+  my ($self, $user) = @_;
+
+  $self->check_signin_and_redirect;
+  my $current_user_id = $self->user->id;
+
+  return $user->id == $current_user_id;
 }
 
 ### DB Access
