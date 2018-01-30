@@ -3,7 +3,7 @@
   [% FOREACH diary IN diaries %]
     <div class="my-diaries">
       <h3>
-        <a href="/[% c.user.name %]/[% diary.title %]">[% diary.title %]</a>
+        <a href="/[% owner %]/[% diary.title %]">[% diary.title %]</a>
       </h3>
     </div>
   [% END %]
