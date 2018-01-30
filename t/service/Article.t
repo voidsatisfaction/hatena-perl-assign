@@ -60,6 +60,46 @@ sub get_article_by_diary_and_title : Test(3) {
   };
 }
 
+sub get_articles : Test(3) {
+  my ($self) = @_;
+
+  my $db = Intern::Diary::Context->new->dbh;
+
+  for (my $i = 0; $i < 21; $i++) {
+    # time.sleep
+    create_article
+  }
+
+  subtest 'Success: designated per_page' => sub {
+    my $get_articles = Intern::Diary::Service::Article->get_articles($db, +{
+      per_page => 10,
+      page => 0,
+      order_by => 'created_at DESC',
+    });
+
+    is scalar(@$get_articles), 10, '10 articles';
+  };
+
+  subtest 'Success: not designated per_page' => sub {
+    my $get_articles = Intern::Diary::Service::Article->get_articles($db, +{
+      page => 0,
+      order_by => 'created_at DESC',
+    });
+
+    is scalar(@$get_articles), 10, 'default maximum is 15'
+  };
+
+  subtest 'Success: more than max_per_page' => sub {
+    my $get_articles = Intern::Diary::Service::Article->get_articles($db, +{
+      per_page => 100,
+      page => 0,
+      order_by => 'created_at DESC',
+    });
+
+    is scalar(@$get_articles), 15, 'per_page maximum is 15'
+  };
+}
+
 sub get_article_by_article_id : Test(2) {
   my ($self) = @_;
 
