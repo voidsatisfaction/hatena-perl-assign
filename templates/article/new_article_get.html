@@ -2,7 +2,9 @@
 <div class=row>
   <form action="/article" method="post">
     [% FOREACH diary IN diaries %]
-    <label><input type="radio" name="diary_title" value="[% diary.title %]" />[% diary.title %]</label>
+    <label><input type="radio" name="diary_title" value="[% diary.title %]" />
+      [% diary.title %]
+    </label>
     [% END %]
     <hr />
     <div class="">
