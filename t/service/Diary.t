@@ -56,7 +56,7 @@ sub get_diary_by_user_and_title : Test(3) {
   my $db = Intern::Diary::Context->new->dbh;
 
   my $user = create_user;
-  my $diary = create_diary((user => $user));
+  my $diary = create_diary(user => $user);
 
   subtest 'Fail: user is undefined' => sub {
     dies_ok {
@@ -173,6 +173,31 @@ sub get_or_create_by_user_and_title : Test(4) {
 
     ok $diary, 'diary exists';
     cmp_deeply $created_diary, $diary, 'diaries are same';
+  };
+}
+
+sub get_diary_by_article : Test(2) {
+  my ($self) = @_;
+
+  my $db = Intern::Diary::Context->new->dbh;
+
+  my $diary = create_diary();
+  my $article = create_article(diary => $diary);
+
+  subtest 'Fail: article is undefined' => sub {
+    dies_ok {
+      Intern::Diary::Service::Diary->get_diary_by_article($db, +{});
+    };
+  };
+
+  subtest 'Success' => sub {
+    my $get_diary = Intern::Diary::Service::Diary->get_diary_by_article($db, +{
+      article => $article,
+    });
+
+    ok $get_diary, 'diary exists';
+    isa_ok $get_diary, 'Intern::Diary::Model::Diary', 'diary is blessed';
+    cmp_deeply $get_diary, $diary, 'diaries are same';
   };
 }
 

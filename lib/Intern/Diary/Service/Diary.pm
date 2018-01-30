@@ -63,4 +63,19 @@ sub get_or_create_by_user_and_title {
   return $class->get_diary_by_user_and_title($db, $args) // $class->create($db, $args);
 }
 
+sub get_diary_by_article {
+  my ($class, $db, $args) = @_;
+
+  my $article = $args->{article} // croak 'article required';
+
+  my $row = $db->select_row(q[
+    SELECT * FROM diary
+      WHERE
+        id = ?
+      LIMIT 1
+  ], $article->diary_id) or return;
+
+  return Intern::Diary::Model::Diary->new($row);
+}
+
 1;
