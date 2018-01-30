@@ -33,7 +33,7 @@ sub new_article_post {
   my $diary_title = $c->req->parameters->{diary_title};
   my $article_title = $c->req->parameters->{article_title};
   my $article_body = $c->req->parameters->{article_body};
-  # QUESTION: Redirect with alert message? e.g. diary_title cannot be blank
+  # QUESTION: Redirect with alert message? e.g. diary_title cannot be blank, using cookie??
   return $c->throw_redirect("/article/new") unless $diary_title && $article_title;
 
   # QUESTION: Validation?
