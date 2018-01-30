@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use utf8;
 
+use Carp;
+
 use Intern::Diary::Service::User;
 use Intern::Diary::Service::Diary;
 use Intern::Diary::Service::Article;
@@ -21,6 +23,34 @@ sub new_article_get {
   $c->html('article/new_article_get.html', +{
     diaries => $diaries,
   });
+}
+
+sub new_article_post {
+  my ($class, $c) = @_;
+  $c->check_signin_and_redirect;
+
+  my $user = $c->user;
+  my $diary_title = $c->req->parameters->{diary_title};
+  my $article_title = $c->req->parameters->{article_title};
+  my $article_body = $c->req->parameters->{article_body};
+  # QUESTION: Redirect with alert message? e.g. diary_title cannot be blank
+  return $c->throw_redirect("/article/new") unless $diary_title && $article_title;
+
+  # QUESTION: Validation?
+  my $diary = Intern::Diary::Service::Diary->get_diary_by_user_and_title($c->dbh, +{
+    user => $user,
+    title => $diary_title,
+  });
+
+  Intern::Diary::Service::Article->create($c->dbh, +{
+    title => $article_title,
+    body => $article_body,
+    diary => $diary,
+  }) // croak 'article should exist';
+
+  my $user_name = $user->name;
+
+  $c->throw_redirect("/$user_name/$diary_title");
 }
 
 sub user_diary_articles_get {
@@ -44,6 +74,7 @@ sub user_diary_articles_get {
   });
 
   $c->html('article/user_diary_articles_get.html', +{
+    owner => $user_name,
     articles => $articles,
   });
 }

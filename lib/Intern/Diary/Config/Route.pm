@@ -47,6 +47,10 @@ sub make_router {
           engine => 'Article',
           action => 'new_article_get',
         };
+        connect '/article' => {
+          engine => 'Article',
+          action => 'new_article_post',
+        } => { method => 'POST' };
         connect '/:username/:diarytitle' => {
           engine => 'Article',
           action => 'user_diary_articles_get',
