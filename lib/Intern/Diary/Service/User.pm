@@ -34,11 +34,22 @@ sub get_user_by_name {
     SELECT * FROM user
       WHERE name = ?
       LIMIT 1
-  ], $name);
+  ], $name) or return;
 
-  unless ($row) {
-    return undef;
-  }
+  return Intern::Diary::Model::User->new($row);
+}
+
+sub get_user_by_diary {
+  my ($class, $db, $args) = @_;
+
+  my $diary = $args->{diary} // croak 'diary required';
+  my $user_id = $diary->user_id;
+
+  my $row = $db->select_row(q[
+    SELECT * FROM user
+      WHERE
+        id = ?
+  ], $user_id) or return;
 
   return Intern::Diary::Model::User->new($row);
 }

@@ -88,6 +88,31 @@ sub create : Test(2) {
   };
 }
 
+sub get_user_by_diary : Test(2) {
+  my ($self) = @_;
+
+  my $db = Intern::Diary::Context->new->dbh;
+
+  my $user = create_user;
+  my $diary = create_diary(user => $user);
+
+  subtest 'Fail: diary is undefined' => sub {
+    dies_ok {
+      Intern::Diary::Service::User->get_user_by_diary($db, +{});
+    };
+  };
+
+  subtest 'Success' => sub {
+    my $get_user = Intern::Diary::Service::User->get_user_by_diary($db, +{
+      diary => $diary,
+    });
+
+    ok $get_user, 'user exists';
+    isa_ok $get_user, 'Intern::Diary::Model::User', 'user is blessed';
+    cmp_deeply $get_user, $user, 'users are same';
+  };
+}
+
 __PACKAGE__->runtests;
 
 1;
