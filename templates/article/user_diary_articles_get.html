@@ -4,11 +4,15 @@
     <div class="my-articles">
       <h3><a href="">[% article.title %]</a></h3>
       <p>[% article.body %]</p>
+      [% IF c.user.name == owner %]
       <a href="#">edit</a>
-      <a href="#">delete</a>
+      <a href="/article/delete/[% article.id %]">delete</a>
+      [% END %]
     </div>
   [% END %]
   <br />
+  [% IF c.user.name == owner %]
   <a href="/article/new">new article</a>
+  [% END %]
 </div>
 [% END # WRAPPER %]
