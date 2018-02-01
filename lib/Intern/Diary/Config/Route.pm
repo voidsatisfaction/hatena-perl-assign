@@ -8,6 +8,12 @@ use Intern::Diary::Config::Route::Declare;
 
 sub make_router {
     return router {
+        # API
+        connect '/api/articles' => {
+          engine => 'API::Article',
+          action => 'all_articles_with_pagination',
+        };
+
         # Index controller
         connect '/' => {
           engine => 'Index',

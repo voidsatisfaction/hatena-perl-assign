@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use utf8;
 
+use JSON::Types qw();
+
 use Intern::Diary::Util;
 
 use Class::Accessor::Lite (
@@ -33,6 +35,16 @@ sub updated_at {
     Intern::Diary::Util::datetime_from_db(
       $self->{updated_at}
     );
+  };
+}
+
+sub json_hash {
+  my ($self) = @_;
+  return +{
+    id => JSON::Types::number $self->id,
+    title => JSON::Types::string $self->title,
+    body => JSON::Types::string $self->body,
+    diary_id => JSON::Types::number $self->diary_id,
   };
 }
 
