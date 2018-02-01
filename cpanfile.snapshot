@@ -1591,6 +1591,14 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  JSON-2.97001
+    pathname: I/IS/ISHIGAKI/JSON-2.97001.tar.gz
+    provides:
+      JSON 2.97001
+      JSON::Backend::PP 2.97001
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::More 0
   JSON-MaybeXS-1.003009
     pathname: E/ET/ETHER/JSON-MaybeXS-1.003009.tar.gz
     provides:
@@ -1615,6 +1623,15 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Scalar::Util 1.08
       Test::More 0
+  JSON-Types-0.05
+    pathname: T/TY/TYPESTER/JSON-Types-0.05.tar.gz
+    provides:
+      JSON::Types 0.05
+    requirements:
+      ExtUtils::MakeMaker 6.36
+      JSON 0
+      Test::More 0.86
+      parent 0
   JSON-XS-3.04
     pathname: M/ML/MLEHMANN/JSON-XS-3.04.tar.gz
     provides:

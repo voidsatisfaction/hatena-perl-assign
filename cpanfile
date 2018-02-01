@@ -1,3 +1,5 @@
+requires 'JSON::Types';
+
 # ---- for framework ---
 requires 'Carp';
 requires 'JSON::XS';
