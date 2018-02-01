@@ -21,7 +21,7 @@ $runner->parse_options(
     @ARGV,
 );
 
-$ENV{INTERN_DIARY_ENV} = $runner->{env} || 'local';
+$ENV{INTERN_DIARY_ENV} = $runner->{env} || 'DEV';
 $runner->{env} = 'development';
 
 my $options = +{ @{ $runner->{options} } };

@@ -1,0 +1,19 @@
+[% WRAPPER '_wrapper.tt' WITH title = "Intern::Diary::Article::New" %]
+<div class=row>
+  <form action="/article" method="post">
+    [% FOREACH diary IN diaries %]
+    <label><input type="radio" name="diary_title" value="[% diary.title %]" />
+      [% diary.title %]
+    </label>
+    [% END %]
+    <hr />
+    <div class="">
+      <input type="text" name="article_title" placeholder="article title" />
+    </div>
+    <div class="">
+      <textarea name="article_body" rows="5" cols="80" placeholder="article content"></textarea>
+    </div>
+    <input type="submit" value="submit" />
+  </form>
+</div>
+[% END # WRAPPER %]

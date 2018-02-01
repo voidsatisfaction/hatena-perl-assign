@@ -1,10 +1,17 @@
 FROM perl:5.20
 
-COPY . /usr/src/perl-Intern-Diary
-WORKDIR /usr/src/perl-Intern-Diary
-
 RUN cpanm Carton
-RUN rm -rf local/
+RUN mkdir -p /cpan
+RUN mkdir -p /usr/src/perl-Intern-Diary
+
+WORKDIR /cpan
+COPY cpanfile .
 RUN carton install
 
-CMD perl leave.pl
+ENV PATH=/cpan/local/bin:$PATH
+ENV PERL5LIB=/cpan/local/lib/perl5
+
+WORKDIR /usr/src/perl-Intern-Diary
+COPY . /usr/src/perl-Intern-Diary
+
+CMD script/appup

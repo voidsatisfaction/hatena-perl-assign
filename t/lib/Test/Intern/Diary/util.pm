@@ -4,6 +4,12 @@ use strict;
 use warnings;
 use utf8;
 
+use Exporter::Lite;
+
+our @EXPORT = qw(
+  random_string
+);
+
 use String::Random qw(random_regex);
 
 sub random_string ($) {

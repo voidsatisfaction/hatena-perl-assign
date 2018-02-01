@@ -8,7 +8,8 @@ services:
       - db
     environment:
       - INTERN_DIARY_ENV=DEV
-  ## for now, I should execute script manually
+    ports:
+      - "13000:3000"
   db:
     image: "mysql:5.7.20"
     volumes:

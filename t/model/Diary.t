@@ -27,7 +27,7 @@ subtest 'Diary model' => sub {
 
     is $diary->id, $id, 'id is same';
     is $diary->title, $title, 'title is same';
-    dies_ok { $diary->user_id }, 'user_id cannot read';
+    $diary->user_id, $user_id, 'user_id is same';
   };
 };
 
