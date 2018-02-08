@@ -69,6 +69,7 @@
         this.articleView = new ArticlesView(this.$element);
         this.pagerView = new PagerView(this.$element)
         this.articles = [];
+
         document.addEventListener('changeArticlePage', this.changeArticlePage.bind(this));
 
         this.updateArticlesAndRender();
@@ -103,10 +104,6 @@
           .catch((err) => {
             return err;
           })
-      }
-
-      updatePagerAndRender(page, perPage) {
-        this.pagerView.render(page, perPage);
       }
     }
 
