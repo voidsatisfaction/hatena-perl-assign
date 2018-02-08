@@ -45,6 +45,8 @@ sub json_hash {
     title => JSON::Types::string $self->title,
     body => JSON::Types::string $self->body,
     diary_id => JSON::Types::number $self->diary_id,
+    created_at => JSON::Types::string $self->created_at,
+    updated_at => JSON::Types::string $self->updated_at,
   };
 }
 
