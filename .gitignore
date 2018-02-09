@@ -29,3 +29,5 @@ MYMETA.*
 .carton/
 /local/
 /log/
+
+node_modules
