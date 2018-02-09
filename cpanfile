@@ -1,3 +1,5 @@
+requires 'JSON::Types';
+
 # ---- for framework ---
 requires 'Carp';
 requires 'JSON::XS';
@@ -19,6 +21,7 @@ requires 'FormValidator::Lite';
 
 requires 'DateTime';
 requires 'DateTime::Format::MySQL';
+requires 'DateTime::Format::Strptime';
 
 requires 'Proclet';
 requires 'Plack';

@@ -1,0 +1,6 @@
+cpanfile.snapshot
+
+local/
+local/**/*
+
+node_modules/

@@ -23,6 +23,7 @@ my $server_port = $ENV{SERVER_PORT} || 3000;
 config default => {
     'server.port'     => $server_port,
     'origin'          => "http://localhost:${server_port}",
+    'host'            => "localhost",
     'file.log.access' => 'log/access_log',
     'file.log.error'  => 'log/error_log',
     'dir.static.root'    => 'static',
@@ -44,14 +45,27 @@ config local => {
     db_timezone => 'UTC',
 };
 
-config test => {
+config DEV => {
+  parent('default'),
+
+  db => {
+    intern_diary => {
+      user     => 'nobody',
+      password => 'nobody',
+      dsn => 'dbi:mysql:dbname=intern_diary;host=db',
+    },
+  },
+  db_timezone => 'UTC',
+};
+
+config TEST => {
     parent('default'),
 
     db => {
         intern_diary => {
             user     => 'nobody',
             password => 'nobody',
-            dsn      => 'dbi:mysql:dbname=intern_diary_test;host=localhost',
+            dsn => 'dbi:mysql:dbname=intern_diary;host=db',
         },
     },
     db_timezone => 'UTC',

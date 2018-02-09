@@ -1,5 +1,13 @@
-[% WRAPPER '_wrapper.tt' %]
-<div class=row>
-  Intern-Diary
+[% WRAPPER '_wrapper.tt' WITH title = "Intern::Diary::All" %]
+<div class="row articles-container">
+  <p>Intern-Diary</p>
+  <div class="articles">
+
+  </div>
+  <div class="pagination">
+    <button class="prev-button">Prev</button>
+    <span class="current-page"></span>
+    <button class="next-button">Next</button>
+  </div>
 </div>
 [% END # WRAPPER %]

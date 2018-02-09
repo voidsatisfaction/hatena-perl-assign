@@ -1,0 +1,14 @@
+[% WRAPPER '_wrapper.tt' WITH title = "Intern::Diary::Me" %]
+<div class=row>
+  [% FOREACH diary IN diaries %]
+    <div class="my-diaries">
+      <h3>
+        <a href="/[% owner %]/[% diary.title %]">[% diary.title %]</a>
+      </h3>
+    </div>
+  [% END %]
+  [% IF c.user.name == owner %]
+    <a href="/diary/new">New Diary</a>
+  [% END %]
+</div>
+[% END # WRAPPER %]

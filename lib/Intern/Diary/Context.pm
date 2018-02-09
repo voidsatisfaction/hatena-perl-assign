@@ -13,6 +13,8 @@ use HTTP::Throwable::Factory ();
 use URI;
 use URI::QueryParam;
 
+use DateTime;
+
 use DBIx::Sunny;
 
 use Class::Accessor::Lite::Lazy (
@@ -23,6 +25,9 @@ use Class::Accessor::Lite::Lazy (
 
 use Intern::Diary::Request;
 use Intern::Diary::Config;
+use Intern::Diary::Util;
+
+use Intern::Diary::Service::User;
 
 ### Properties
 
@@ -50,6 +55,30 @@ sub _build_stash { +{} };
 
 ### HTTP Response
 
+sub set_cookie {
+  my ($self, $args) = @_;
+
+  my $key = $args->{key} // Carp::croak 'key is required';
+  my $value = $args->{value} // '';
+  my $domain = $args->{domain} // config->param('host');
+  my $path = $args->{path} // '/';
+  my $expires = $args->{expires} // Intern::Diary::Util::datetime_to_cookie_string(DateTime->now->add( days => 3 ));
+
+  # $self->response->cookies->{$key} = $value;
+  $self->response->cookies->{$key} = {
+    value => $value,
+    path => $path,
+    domain => $domain,
+    expires => $expires->stringify,
+  };
+}
+
+sub get_cookie {
+  my ($self, $name) = @_;
+
+  $self->request->cookies->{$name};
+}
+
 sub render_file {
     my ($self, $file, $args) = @_;
     $args //= {};
@@ -70,6 +99,17 @@ sub html {
     $self->response->code(200);
     $self->response->content_type('text/html; charset=utf-8');
     $self->response->content(Encode::encode_utf8 $content);
+}
+
+sub error {
+  my ($self, $status_code, $args) = @_;
+
+  $args->{status_code} = $status_code;
+
+  my $content = $self->render_file("error/index.html", $args);
+  $self->response->code($status_code);
+  $self->response->content_type('text/html; charset=utf-8');
+  $self->response->content(Encode::encode_utf8 $content);
 }
 
 sub json {
@@ -108,6 +148,50 @@ sub uri_for {
     my $uri = URI->new(config->param('origin'));
     $uri->path_query($path_query);
     return $uri;
+}
+
+### User & Session
+### TODO: Cookie to Session
+
+sub user {
+  my ($self) = @_;
+  return $self->{user} // do {
+    my $user_name = $self->get_cookie('username') or return undef;
+    Intern::Diary::Service::User->get_or_create_by_name($self->dbh, +{
+      name => $user_name,
+    });
+  }
+}
+
+sub check_signin_and_redirect {
+  my ($self) = @_;
+
+  unless ($self->user) {
+    $self->throw_redirect('/signin');
+  }
+}
+
+sub check_same_user {
+  my ($self, $user) = @_;
+
+  $self->check_signin_and_redirect;
+  my $current_user_id = $self->user->id;
+
+  return $user->id == $current_user_id;
+}
+
+### Pagination
+
+sub default_per_page {
+  my ($self) = @_;
+
+  return 10;
+}
+
+sub max_per_page {
+  my ($self) = @_;
+
+  return 15;
 }
 
 ### DB Access
