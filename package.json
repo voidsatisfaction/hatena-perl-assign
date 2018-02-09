@@ -1,0 +1,15 @@
+{
+  "name": "perl-Intern-Diary",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@ghe.admin.h:voidsatisfaction/perl-Intern-Diary.git",
+  "license": "MIT",
+  "scripts": {
+    "build": "./node_modules/.bin/webpack"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "webpack": "^3.10.0"
+  }
+}
