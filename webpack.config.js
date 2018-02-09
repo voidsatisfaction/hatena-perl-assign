@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 
 const config = {
@@ -11,10 +12,16 @@ const config = {
   module: {
     loaders: [{
       test: /\.js$/,
-      loaders: ['babel-loader'],
+      loader: 'babel-loader',
       include: path.join(__dirname, 'src/js'),
+      query: {
+        presets: ['es2015']
+      }
     }],
   },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin(),
+  ]
 };
 
 module.exports = config;
