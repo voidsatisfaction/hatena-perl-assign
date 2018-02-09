@@ -27,8 +27,32 @@ sub create_mech (;%) {
 sub new {
     my ($class, %opts) = @_;
 
+    my $user = delete $opts{user} // undef;
+
+    unless ($user) {
+      my $self = $class->SUPER::new(
+          app     => $app,
+          %opts,
+      );
+
+      return $self;
+    }
+
+    my $user_name = $user->name;
+    my $user_mw = sub {
+      my $app = shift;
+      sub {
+        my $env = shift;
+        # apply username cookie
+        my $cookie = "username=$user_name";
+        $env->{HTTP_COOKIE} = $cookie;
+        $app->($env);
+      };
+    };
+
+
     my $self = $class->SUPER::new(
-        app     => $app,
+        app     => $user_mw->($app),
         %opts,
     );
 

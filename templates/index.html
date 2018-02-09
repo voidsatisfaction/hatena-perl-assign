@@ -1,5 +1,18 @@
-[% WRAPPER '_wrapper.tt' %]
+[% WRAPPER '_wrapper.tt' WITH title = "Intern::Diary::All" %]
 <div class=row>
   Intern-Diary
+  <div class="articles">
+    [% FOREACH article IN articles %]
+      <div class="article">
+        <h3>[% article.title %]</h3>
+        <p>[% article.body %]</p>
+      </div>
+    [% END %]
+    [% IF next_page - 1 > 0 %]
+    <a href="/?page=[% next_page - 2 %]&per_page=[% per_page %]">Prev</a>
+    [% END %]
+    <span>page [% next_page %]</span>
+    <a href="/?page=[% next_page %]&per_page=[% per_page %]">Next</a>
+  </div>
 </div>
 [% END # WRAPPER %]

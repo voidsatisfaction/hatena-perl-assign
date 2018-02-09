@@ -1,0 +1,44 @@
+[% WRAPPER '_wrapper.tt' WITH title = "Intern::Diary::Article" %]
+<div class=row>
+  [% FOREACH article IN articles %]
+    <div class="my-articles">
+      <h3><a href="">[% article.title %]</a></h3>
+      <p>[% article.body %]</p>
+      [% IF c.user.name == owner %]
+      <a href="#">edit</a>
+      <a data-article-id='[% article.id %]' class='article-delete-button'>
+        delete
+      </a>
+      [% END %]
+    </div>
+  [% END %]
+  <br />
+  [% IF c.user.name == owner %]
+  <a href="/article/new">new article</a>
+  [% END %]
+</div>
+[% IF c.user.name == owner %]
+<script type="text/javascript">
+  function deleteArticle(id) {
+    return function() {
+      const req = new XMLHttpRequest();
+
+      req.onreadystatechange = function() {
+        if (req.readyState === 4 && req.status === 200) {
+          console.log('delete succeeded');
+          window.location.reload();
+        }
+      };
+
+      req.open('POST', `/article/delete/${id}`);
+      req.send();
+    }
+  }
+  const articleDeleteButtons = document.querySelectorAll(".article-delete-button");
+  articleDeleteButtons.forEach((articleDeleteButton) => {
+    const articleId = Number(articleDeleteButton.getAttribute('data-article-id'));
+    articleDeleteButton.addEventListener('click', deleteArticle(articleId));
+  });
+</script>
+[% END %]
+[% END # WRAPPER %]
