@@ -14,6 +14,7 @@ const $mouseStalker2 = new MouseStalker({
   diffX: 50,
   diffY: 70,
   id: 'cocomon',
+  imageUrl: '/mad.png'
 });
 
 if (module.hot) {
