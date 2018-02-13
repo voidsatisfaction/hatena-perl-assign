@@ -7,12 +7,6 @@ const config = {
   ],
   module: {
     rules: [{
-      test: /\.css$/,
-      use: [
-        'style-loader',
-        'css-loader?url=false',
-      ]
-    }, {
       test: /\.js$/,
       exclude: /node_modules/,
       use: [{
@@ -23,11 +17,6 @@ const config = {
           ]
         }
       }]
-    }, {
-      test: /\.png$/,
-      use: [
-        'url-loader',
-      ]
     }],
   },
   plugins: [
