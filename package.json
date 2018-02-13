@@ -5,7 +5,8 @@
   "repository": "git@ghe.admin.h:voidsatisfaction/perl-Intern-Diary.git",
   "license": "MIT",
   "scripts": {
-    "build": "./node_modules/.bin/webpack"
+    "start": "webpack --colors --watch",
+    "build": "webpack"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
