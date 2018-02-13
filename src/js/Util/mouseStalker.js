@@ -1,6 +1,7 @@
 export default class MouseStalker {
   constructor(opts) {
-    const { imageUrl, width, height } = opts;
+    const { imageUrl, width, height, diffX, diffY } = opts;
+    
     const $stalker = document.createElement('div');
     $stalker.setAttribute('id', 'mouse-stalker-element');
     $stalker.style.position = 'absolute';
@@ -17,8 +18,8 @@ export default class MouseStalker {
     document.body.append($stalker);
 
     document.addEventListener('mousemove', (e) => {
-      const x = `${e.x + 15}px`;
-      const y = `${e.y + 15}px`;
+      const x = `${e.pageX + (diffX || 15)}px`;
+      const y = `${e.pageY + (diffY || 15)}px`;
       $stalker.style.left = x;
       $stalker.style.top = y;
     });
