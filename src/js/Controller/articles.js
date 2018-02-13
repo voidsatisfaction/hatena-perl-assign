@@ -5,6 +5,9 @@ import ArticlesView from '../View/articlesView';
 
 export default class ArticlesController {
   constructor($element) {
+    if (!$element) {
+      return
+    }
     this.$element = $element;
     this.articleView = new ArticlesView(this.$element);
     this.pagerView = new PagerView(this.$element)
