@@ -1,9 +1,12 @@
 export default class MouseStalker {
   constructor(opts) {
-    const { imageUrl, width, height, diffX, diffY } = opts;
-    
+    if (!opts) {
+      return
+    }
+    const { imageUrl, width, height, diffX, diffY, id } = opts;
+
     const $stalker = document.createElement('div');
-    $stalker.setAttribute('id', 'mouse-stalker-element');
+    $stalker.setAttribute('id', `mouse-stalker-${id || 'element'}`);
     $stalker.style.position = 'absolute';
     $stalker.style.display = 'inline-block';
     $stalker.style.width = `${width || '30px'}`;
